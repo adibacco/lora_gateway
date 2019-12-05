@@ -34,6 +34,8 @@ Maintainer: Sylvain Miermont
 #include "loragw_spi.h"
 #include "loragw_hal.h"
 
+#include "wiringPi.h"
+
 /* -------------------------------------------------------------------------- */
 /* --- PRIVATE MACROS ------------------------------------------------------- */
 
@@ -56,6 +58,7 @@ Maintainer: Sylvain Miermont
 #define SPI_SPEED       8000000
 #define SPI_DEV_PATH    "/dev/spidev0.0"
 //#define SPI_DEV_PATH    "/dev/spidev32766.0"
+#define GPIO_RESET_PIN	0
 
 /* -------------------------------------------------------------------------- */
 /* --- PUBLIC FUNCTIONS DEFINITION ------------------------------------------ */
@@ -66,6 +69,14 @@ int lgw_spi_open(void **spi_target_ptr) {
     int dev;
     int a=0, b=0;
     int i;
+
+    wiringPiSetup();
+    pinMode(GPIO_RESET_PIN, OUTPUT);
+    digitalWrite(GPIO_RESET_PIN, HIGH);
+    sleep(5);
+    digitalWrite(GPIO_RESET_PIN, LOW);
+
+
 
     /* check input variables */
     CHECK_NULL(spi_target_ptr); /* cannot be null, must point on a void pointer (*spi_target_ptr can be null) */

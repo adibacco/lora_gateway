@@ -17,7 +17,7 @@ INCLUDES = $(wildcard inc/*.h)
 
 ### linking options
 
-LIBS := -lloragw -lrt -lm
+LIBS := -lloragw -lrt -lm -lwiringPi
 
 ### general build targets
 
